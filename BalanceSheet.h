@@ -23,6 +23,7 @@ class BalanceSheet
 {
     public:
         //Constructors
+        BalanceSheet(){};
         BalanceSheet(Assets& a, Liabilities& l, Equity& e): assets(a), liabilities(l), equity(e){};
         
         //Getters

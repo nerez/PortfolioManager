@@ -24,16 +24,13 @@ void CF_testGettersAndSetters()
     #define INVESTING1 100
     #define INVESTING2 147
     cout << "Start testGettersAndSetters of CashFlow" << endl;
-    Operations operations;
-    operations.sum = OPERATIONS1;
-    Financing financing;
-    financing.sum = FINANCING1;
-    Investing investing;
-    investing.sum = INVESTING1;
-    CashFlow cf(operations, financing, investing);
+    CashFlow cf = CreateCashFlow(OPERATIONS1, FINANCING1, INVESTING1) ;
     assert(cf.getOperations().sum == OPERATIONS1);
     assert(cf.getFinancing().sum == FINANCING1);
     assert(cf.getInvesting().sum == INVESTING1);
+    Operations operations;
+    Financing financing;
+    Investing investing;
     operations.sum = OPERATIONS2;
     financing.sum = FINANCING2;
     investing.sum = INVESTING2;
@@ -50,4 +47,17 @@ void CF_testGettersAndSetters()
     #undef FINANCING2 
     #undef INVESTING1
     #undef INVESTING2
+}
+
+CashFlow CreateCashFlow(const dollars _operations, const dollars _financing, const dollars _investing)
+{
+    cout << "CreateCashFlow" << endl;
+    Operations operations;
+    operations.sum = _operations;
+    Financing financing;
+    financing.sum = _financing;
+    Investing investing;
+    investing.sum = _investing;
+    CashFlow cf(operations, financing, investing);
+    return cf;
 }

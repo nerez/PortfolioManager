@@ -22,6 +22,7 @@ void testIncomeStatement()
     cout << "Done Testing IncomeStatement" << endl;
 }
 
+
 void IS_testGettersAndSetters()
 {
     #define REVENUES1 10.1
@@ -31,11 +32,7 @@ void IS_testGettersAndSetters()
     #define NETINCOME1 100
     #define NETINCOME2 147
     cout << "Start testGettersAndSetters of IncomeStatement" << endl;
-    t_income_statement income_statement;
-    income_statement.revenues = REVENUES1;
-    income_statement.expenses = EXPENSES1;
-    income_statement.net_income = NETINCOME1;
-    IncomeStatement is(income_statement);
+    IncomeStatement is = CreateIncomeStatement(REVENUES1, EXPENSES1, NETINCOME1);
     assert(is.getRevenues() == REVENUES1);
     assert(is.getExpenses() == EXPENSES1);
     assert(is.getNetIncome() == NETINCOME1);
@@ -52,4 +49,15 @@ void IS_testGettersAndSetters()
     #undef EXPENSES2 
     #undef NETINCOME1
     #undef NETINCOME2
+}
+
+IncomeStatement CreateIncomeStatement(const dollars _revenues, const dollars _expenses, const dollars _net_income)
+{
+    cout << "CreateIncomeStatement" << endl;
+    t_income_statement income_statement;
+    income_statement.revenues = _revenues;
+    income_statement.expenses = _expenses;
+    income_statement.net_income = _net_income;
+    IncomeStatement is(income_statement);
+    return is;
 }

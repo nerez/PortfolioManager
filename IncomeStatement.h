@@ -14,6 +14,7 @@ class IncomeStatement
 {
     public:
         //Constructors
+        IncomeStatement(){};
         IncomeStatement(t_income_statement& is): income_statement(is){};
         
         //Getters

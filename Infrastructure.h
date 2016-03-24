@@ -2,6 +2,6 @@
 #define INFRASTRUCTURE_H
 
 #define dollars double
-#define shares int
+#define shares unsigned int
     
 #endif

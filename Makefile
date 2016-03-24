@@ -1,8 +1,5 @@
-all: hello-cpp-world hello-c-world
+all: PortfolioManager
 
-%: %.cc
-	g++ -std=c++11 $< -o $@
-
-%: %.c
-	gcc $< -o $@
-
+PortfolioManager: BalanceSheetTest.cpp IncomeStatementTest.cpp CashFlowTest.cpp TermReportTest.cpp YearlyTermReport.cpp YearlyTermReportTest.cpp
+	g++ -std=c++11 BalanceSheetTest.cpp IncomeStatementTest.cpp CashFlowTest.cpp TermReportTest.cpp YearlyTermReport.cpp YearlyTermReportTest.cpp -o PortfolioManager
+	

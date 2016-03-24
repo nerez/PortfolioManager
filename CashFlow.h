@@ -23,6 +23,7 @@ class CashFlow
 {
         public:
         //Constructors
+        CashFlow(){};
         CashFlow(Operations& o, Financing& f, Investing& i): operations(o), financing(f), investing(i){};
         
         //Getters
