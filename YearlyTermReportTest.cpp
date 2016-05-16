@@ -26,17 +26,20 @@ static void testSetTerm4FromYearly(YearlyTermReport& _ytr, const dollars _cash1,
 /*Test that 'setTermReport works*/
 static void testSetTermReport();
 
+/*Test that the constructor works*/
+static void testYearlyTermReportConstructor();
+
 /*Test that all the membrs of the TermReport tr are equal to 'num'*/
 static void testAllTermMemberEqualToParam(TermReport& tr, int num);
 
 int main()
 {
     cout << "Start Testing YearlyTermReport" << endl;
-    testYearlyTermReport();
-    testTermReport();
     testBalanceSheet();
     testIncomeStatement();
     testCashFlow();
+    testTermReport();
+    testYearlyTermReport();
     cout << "Done Testing YearlyTermReport" << endl;
     
     return 0;
@@ -89,6 +92,7 @@ void testYearlyTermReport()
                                              CASH3, SHORT_TERM_DEBT3, NUM_OF_SHARES3, EQUITY3, REVENUES3, EXPENSES3, NETINCOME3, OPERATIONS3, FINANCING3, INVESTING3, 
                                              CASH4, SHORT_TERM_DEBT4, NUM_OF_SHARES4, EQUITY4, REVENUES4, EXPENSES4, NETINCOME4, OPERATIONS4, FINANCING4, INVESTING4);
     testSetTermReport();
+    testYearlyTermReportConstructor();
     #undef CASH1 
     #undef SHORT_TERM_DEBT1
     #undef NUM_OF_SHARES1 
@@ -150,14 +154,24 @@ YearlyTermReport CreateYearlyTermReport(const dollars _cash1, const dollars _sho
 }
 
 
+static void testYearlyTermReportConstructor()
+{
+    cout << "start testYearlyTermReportConstructor of YearlyTermReport" << endl;
+    
+    TermReport tr1 = CreateTermReport(1,1,1,1,1,1,1,1,1,1);
+    TermReport tr2 = CreateTermReport(2,2,2,2,2,2,2,2,2,2);
+    TermReport tr3 = CreateTermReport(3,3,3,3,3,3,3,3,3,3);
+    TermReport yearly = CreateTermReport(10,10,10,10,10,10,10,10,10,10);
+    YearlyTermReport ytr(tr1, tr2, tr3, yearly);
+    
+    testAllTermMemberEqualToParam(ytr.getTermReport(TERM4), 4);
+    cout << "done testYearlyTermReportConstructor of YearlyTermReport" << endl;
+}
+
+
 static void testSetTermReport()
 {
     cout << "start testSetTermReport of YearlyTermReport" << endl;
-    const e_term t1 = TERM1;
-    const e_term t2 = TERM2;
-    const e_term t3 = TERM3;
-    const e_term t4 = TERM4;
-    const e_term yr = YEARLY;
     
     YearlyTermReport ytr = CreateYearlyTermReport(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
     TermReport tr1 = CreateTermReport(1,1,1,1,1,1,1,1,1,1);
@@ -168,60 +182,47 @@ static void testSetTermReport()
     TermReport tr3_2 = CreateTermReport(2,2,2,2,2,2,2,2,2,2);
     TermReport tr4 = CreateTermReport(4,4,4,4,4,4,4,4,4,4);
     TermReport yearly = CreateTermReport(5,5,5,5,5,5,5,5,5,5);
-    ytr.setTermReport(t1, tr1);
-    ytr.setTermReport(t2, tr2);
-    ytr.setTermReport(t3, tr3);
-    ytr.setTermReport(t4, tr4);
+    ytr.setTermReport(TERM1, tr1);
+    ytr.setTermReport(TERM2, tr2);
+    ytr.setTermReport(TERM3, tr3);
+    ytr.setTermReport(TERM4, tr4);
     
     // Checking that the yearly report is set to 0
     cout << "start checking that the yearly report is set to 0" << endl;
-    testAllTermMemberEqualToParam(yearly, 0);
+    testAllTermMemberEqualToParam(ytr.getTermReport(YEARLY), 0);
     
     // Setting the yearly report to 5
-    ytr.setTermReport(yr, yearly);
+    ytr.setTermReport(YEARLY, yearly);
     
     // Checking that the yearly report is set to 5
     cout << "start checking that the yearly report is set to 5" << endl;
-    testAllTermMemberEqualToParam(yearly, 5);
+    testAllTermMemberEqualToParam(ytr.getTermReport(YEARLY), 5);
     
     // Setting the term4 report with calculation option
-    ytr.setTermReport(t4, tr4, true);
+    ytr.setTermReport(TERM4, tr4, true);
     
     // Checking that the term4 report is set to 4
     cout << "start checking that the term4 report is set to 4" << endl;
-    testAllTermMemberEqualToParam(tr4, 4);
+    testAllTermMemberEqualToParam(ytr.getTermReport(TERM4), 4);
     
     // Checking that the yearly report is therefore set to 10 (1 + 2 + 3 + 4)
     cout << "start checking that the yearly report is set to 10" << endl;
-    testAllTermMemberEqualToParam(yearly, 10);
+    testAllTermMemberEqualToParam(ytr.getTermReport(YEARLY), 10);
     
     // Setting the yearly report to 5 with calculation option on
-    ytr.setTermReport(yr, yearly, true);
+    ytr.setTermReport(YEARLY, yearly, true);
     
-    // Checking that term4 values are changed to -1 because of the yearly calculation
+    // Checking that term4 values are changed to -1 because of the yearly calculation 5 - 3 - 2 - 1 = -1
     cout << "start checking that the term4 report is set to -1" << endl;
-    testAllTermMemberEqualToParam(tr4, -1);
+    testAllTermMemberEqualToParam(ytr.getTermReport(TERM4), -1);
     
     // Setting the first term to '2' with calculation option on
-    ytr.setTermReport(t1, tr1_2, true);
+    ytr.setTermReport(TERM1, tr1_2, true);
     
-    // Checking that term4 values are changed to -2 (5 - 2 - 2 - 3)
-    cout << "start checking that the term4 report is set to -2" << endl;
-    testAllTermMemberEqualToParam(tr4, -2);
+    // Checking that term4 values are not changed because the input is of TERM1 and not TERM4 or YEARLY
+    cout << "start checking that the term4 report is set to -1" << endl;
+    testAllTermMemberEqualToParam(ytr.getTermReport(TERM4), -1);
     
-    // Setting the second term to '3' with calculation option on
-    ytr.setTermReport(t2, tr2_2, true);
-    
-    // Checking that term4 values are changed to -3 (5 - 2 - 3 - 3)
-    cout << "start checking that the term4 report is set to -3" << endl;
-    testAllTermMemberEqualToParam(tr4, -3);
-    
-    // Setting the third term to '2' with calculation option on
-    ytr.setTermReport(t3, tr3_2, true);
-    
-    // Checking that term4 values are changed to -2 (5 - 2 - 3 - 2)
-    cout << "start checking that the term4 report is set to -2" << endl;
-    testAllTermMemberEqualToParam(tr4, -2);
     cout << "Done testSetTermReport of YearlyTermReport" << endl;
     
 }
@@ -230,18 +231,18 @@ static void testAllTermMemberEqualToParam(TermReport& tr, int num)
 {
     cout << "start testAllTermMemberEqualToParam of param: " << num << endl;
     BalanceSheet trbs = tr.getBalanceSheet();
-    assert(trbs.getAssets().cash == (dollars)num);
-    assert(trbs.getLiabilities().short_term_debt == (dollars)num);
-    assert(trbs.getEquity().num_of_shares == (shares)num);
-    assert(trbs.getEquity().equity == (dollars)num);
+    assert(trbs.getAssets().cash == num);
+    assert(trbs.getLiabilities().short_term_debt == num);
+    assert(trbs.getEquity().num_of_shares == num);
+    assert(trbs.getEquity().equity == num);
     IncomeStatement tris = tr.getIncomeStatement();
-    assert(tris.getRevenues() == (dollars)num);
-    assert(tris.getExpenses() == (dollars)num);
-    assert(tris.getNetIncome() == (dollars)num);
+    assert(tris.getRevenues() == num);
+    assert(tris.getExpenses() == num);
+    assert(tris.getNetIncome() == num);
     CashFlow trcf = tr.getCashFlow();
-    assert(trcf.getOperations().sum == (dollars)num);
-    assert(trcf.getFinancing().sum == (dollars)num);
-    assert(trcf.getInvesting().sum == (dollars)num); 
+    assert(trcf.getOperations().sum == num);
+    assert(trcf.getFinancing().sum == num);
+    assert(trcf.getInvesting().sum == num); 
     cout << "Done testAllTermMemberEqualToParam" << endl;
 }
 

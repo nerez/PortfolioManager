@@ -1,9 +1,12 @@
 Tasks:
-1. Finish YearlyTermReport. Finsih writing the test and then finish the class
 
 Objects:
 Company (name, market cap, number_of_shares, notes_compilation, map<YearlyReports>)
 =>
 YearlyReports ( Q1, Q2, Q3, Q4, K )
 =>
-ReportType ( BalanceSheet, IncomeStatement, Cashflow)
+TermReport ( BalanceSheet, IncomeStatement, Cashflow)
+=>
+BalanceSheet ( Assets, Liabilities, Equity)
+IncomeStatement (Income, Expenses)
+Cashflow (Operations, Financing, Investing)

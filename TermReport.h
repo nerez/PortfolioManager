@@ -23,10 +23,38 @@ class TermReport
         void setIncomeStatement(IncomeStatement& val){incomestatement = val;};
         void setCashFlow(CashFlow& val){cashflow = val;};
         
+        //Operators
+        TermReport& operator+=(const TermReport& other)
+        {
+            balancesheet += other.balancesheet;
+            incomestatement += other.incomestatement;
+            cashflow += other.cashflow;
+        }
+        
+        TermReport& operator-=(const TermReport& other)
+        {
+            balancesheet -= other.balancesheet;
+            incomestatement -= other.incomestatement;
+            cashflow -= other.cashflow;
+        }
+        
+        
     private:
         BalanceSheet balancesheet;
         IncomeStatement incomestatement;
         CashFlow cashflow;
 };
+
+inline TermReport operator+(TermReport left, const TermReport& right)
+{
+    left += right;
+    return left;
+}
+
+inline TermReport operator-(TermReport left, const TermReport& right)
+{
+    left -= right;
+    return left;
+}
 
 #endif
