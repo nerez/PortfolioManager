@@ -1,4 +1,13 @@
+#include <stdexcept>
 #include "YearlyTermReport.h"
+
+
+void Year::checkYear(u_int _year)
+{
+    if ((_year >= 2009) && (_year < 2020))
+        year = _year;
+    else throw std::invalid_argument("Invalid input of year");
+}
 
 //Public
 TermReport& YearlyTermReport::getTermReport(const e_term t)

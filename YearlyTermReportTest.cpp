@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cassert>
+#include <stdexcept>
 #include "YearlyTermReportTest.h"
 #include "TermReportTest.h"
 #include "BalanceSheetTest.h"
@@ -32,6 +33,9 @@ static void testYearlyTermReportConstructor();
 /*Test that all the membrs of the TermReport tr are equal to 'num'*/
 static void testAllTermMemberEqualToParam(TermReport& tr, int num);
 
+/*Test Year class*/
+static void testYear();
+
 int main()
 {
     cout << "Start Testing YearlyTermReport" << endl;
@@ -41,8 +45,31 @@ int main()
     testTermReport();
     testYearlyTermReport();
     cout << "Done Testing YearlyTermReport" << endl;
+    cout << "Start Testing Year" << endl;
+    testYear();
+    cout << "Done Testing Year" << endl;
     
     return 0;
+}
+
+
+void testYear()
+{
+    #define YEAR1 2015
+    #define YEAR2 2500
+    cout << "start testYear() YearlyTermReport" << endl;
+    Year y1 = Year(YEAR1);
+    assert(y1.getYear() == YEAR1);
+    try
+    {
+        Year y2 = Year(YEAR2);
+    }
+    catch (const std::invalid_argument& ia)
+    {
+        cout << "done testYear() YearlyTermReport" << endl;
+        return;
+    }
+    assert(0);
 }
 
 void testYearlyTermReport()

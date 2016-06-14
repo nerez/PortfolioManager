@@ -5,6 +5,18 @@
 
 enum e_term {TERM1, TERM2, TERM3, TERM4, YEARLY};
 
+class Year
+{
+    private:
+        int year;
+        void checkYear( u_int _year );
+        
+    public:
+        Year(u_int year){ checkYear(year); };
+        u_int getYear(){ return year; };
+};
+
+
 
 class YearlyTermReport
 {    
@@ -14,8 +26,6 @@ class YearlyTermReport
         TermReport term3;
         TermReport term4;
         TermReport yearly;
-        
-        TermReport& get_calculated_term_report(const e_term calc_t);
         
     public:
         //Constructors
